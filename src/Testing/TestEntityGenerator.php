@@ -111,8 +111,9 @@ class TestEntityGenerator
                 
                 if (!isset($properties[$propertyName])) {
                     $returnType = $method->getReturnType();
-                    if ($returnType) {
-                        $doctrineType = $this->mapPhpTypeToDoctrineType($returnType->getName());
+                    if ($returnType !== null) {
+                        $typeName = $returnType instanceof \ReflectionNamedType ? $returnType->getName() : 'mixed';
+                        $doctrineType = $this->mapPhpTypeToDoctrineType($typeName);
                         $properties[$propertyName] = $doctrineType;
                     }
                 }

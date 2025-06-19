@@ -1,6 +1,6 @@
 <?php
 
-namespace Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection;
+namespace Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

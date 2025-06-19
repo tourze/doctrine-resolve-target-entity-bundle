@@ -5,7 +5,7 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Tests\DependencyInjection;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\ResolveTargetEntityPass;
+use Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\Compiler\ResolveTargetEntityPass;
 use Tourze\DoctrineResolveTargetEntityBundle\Service\ResolveTargetEntityService;
 use Tourze\DoctrineResolveTargetEntityBundle\Tests\Fixtures\TestEntity;
 use Tourze\DoctrineResolveTargetEntityBundle\Tests\Fixtures\TestInterface;
