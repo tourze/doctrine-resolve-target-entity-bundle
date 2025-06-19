@@ -32,10 +32,10 @@ class TestKernelHelper
             }
         };
     }
-    
+
     /**
      * 为测试添加标准的实体映射目录
-     * 
+     *
      * @param string $testDir 测试目录，通常是 __DIR__
      * @return array
      */
@@ -45,10 +45,10 @@ class TestKernelHelper
             'Test\\Entity' => $testDir . '/Fixtures/Entity',
         ];
     }
-    
+
     /**
      * 为测试配置 Doctrine 映射的回调
-     * 
+     *
      * @param string $namespace 命名空间
      * @param string $directory 目录路径
      * @return \Closure
@@ -72,10 +72,10 @@ class TestKernelHelper
             }
         };
     }
-    
+
     /**
      * 创建用于动态实体生成的回调函数
-     * 
+     *
      * @param array $interfaceConfigs 接口配置，格式：[InterfaceClass => ['properties' => [...]]]
      * @param string $cacheDir 缓存目录，通常来自内核的getCacheDir()
      * @return \Closure 返回用于 IntegrationTestKernel containerBuilder 参数的回调
@@ -84,10 +84,10 @@ class TestKernelHelper
     {
         return function (ContainerBuilder $container) use ($interfaceConfigs, $cacheDir) {
             $generator = new TestEntityGenerator($cacheDir);
-            
+
             foreach ($interfaceConfigs as $interface => $config) {
                 $entityClass = $generator->generateTestEntity($interface, $config['properties'] ?? []);
-                
+
                 $container->addCompilerPass(
                     new ResolveTargetEntityPass($interface, $entityClass),
                     PassConfig::TYPE_BEFORE_OPTIMIZATION,
