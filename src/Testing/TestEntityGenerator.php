@@ -22,7 +22,7 @@ class TestEntityGenerator
     
     /**
      * 为接口生成测试实体类
-     * 
+     *
      * @param string $interface 接口的完全限定类名
      * @param array $properties 属性配置，格式：['propertyName' => 'doctrineType']
      * @return string 生成的实体类的完全限定类名

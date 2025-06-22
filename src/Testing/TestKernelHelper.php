@@ -15,7 +15,7 @@ class TestKernelHelper
 {
     /**
      * 创建用于配置 resolve target entity 映射的回调函数
-     * 
+     *
      * @param array $resolveTargetMappings 接口到实体的映射
      * @return \Closure 返回用于 IntegrationTestKernel containerBuilder 参数的回调
      */
