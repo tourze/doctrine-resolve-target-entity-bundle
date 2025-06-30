@@ -8,7 +8,7 @@ use Nette\PhpGenerator\PsrPrinter;
 
 /**
  * 测试实体生成器
- * 
+ *
  * 使用 Nette PHP Generator 动态生成实现接口的测试实体
  */
 class TestEntityGenerator
@@ -131,7 +131,7 @@ class TestEntityGenerator
             'bool' => 'boolean',
             'float' => 'float',
             'array' => 'json',
-            '\\DateTime', '\\DateTimeInterface', '\\DateTimeImmutable' => 'datetime',
+            'DateTime', 'DateTimeInterface', 'DateTimeImmutable' => 'datetime',
             default => 'string'
         };
     }
@@ -151,7 +151,8 @@ class TestEntityGenerator
         ]);
 
         // Getter
-        $class->addMethod('get' . ucfirst($name))
+        $getterName = ($doctrineType === 'boolean' ? 'is' : 'get') . ucfirst($name);
+        $class->addMethod($getterName)
             ->setReturnType('?' . $phpType)
             ->setBody('return $this->' . $name . ';');
 

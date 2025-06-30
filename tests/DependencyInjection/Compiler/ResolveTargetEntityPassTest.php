@@ -1,6 +1,6 @@
 <?php
 
-namespace Tourze\DoctrineResolveTargetEntityBundle\Tests\DependencyInjection;
+namespace Tourze\DoctrineResolveTargetEntityBundle\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

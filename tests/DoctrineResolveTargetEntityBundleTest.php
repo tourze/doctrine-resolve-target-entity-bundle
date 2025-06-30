@@ -22,7 +22,6 @@ class DoctrineResolveTargetEntityBundleTest extends TestCase
         
         $path = $bundle->getPath();
         
-        $this->assertIsString($path);
         $this->assertStringEndsWith('src', $path);
         $this->assertFileExists($path);
     }

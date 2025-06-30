@@ -9,12 +9,10 @@ use Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\DoctrineResolve
 
 class DoctrineResolveTargetEntityExtensionTest extends TestCase
 {
-    private ContainerBuilder $containerBuilder;
     private DoctrineResolveTargetEntityExtension $extension;
     
     protected function setUp(): void
     {
-        $this->containerBuilder = $this->createMock(ContainerBuilder::class);
         $this->extension = new DoctrineResolveTargetEntityExtension();
     }
     
