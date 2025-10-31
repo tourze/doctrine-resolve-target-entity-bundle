@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PHPStan\Type\ObjectType;
 
 /**
  * PHPStan规则：检查继承Doctrine\Bundle\FixturesBundle\Fixture且注入ResolveTargetEntityService的类
@@ -104,7 +103,7 @@ class DataFixtureOrderedInterfaceRule implements Rule
             foreach ($variants as $variant) {
                 foreach ($variant->getParameters() as $param) {
                     $paramType = $param->getType();
-                    if ($paramType instanceof ObjectType) {
+                    if ($paramType->isObject()) {
                         $className = $paramType->getClassName();
                         if ($this->isResolveTargetEntityService($className)) {
                             return true;
