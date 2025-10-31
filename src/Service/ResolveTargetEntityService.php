@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tourze\DoctrineResolveTargetEntityBundle\Service;
 
 use Tourze\DoctrineResolveTargetEntityBundle\Exception\EntityClassNotFoundException;
 
 class ResolveTargetEntityService
 {
+    /** @var array<string, string> */
     private array $map = [
         // interface => entity class name
     ];
@@ -15,11 +18,12 @@ class ResolveTargetEntityService
         $this->map[$interfaceName] = $entityName;
     }
 
-    public function findEntityClass($entityClass): string
+    public function findEntityClass(string $entityClass): string
     {
         if (!isset($this->map[$entityClass])) {
             throw new EntityClassNotFoundException($entityClass);
         }
+
         return $this->map[$entityClass];
     }
 }

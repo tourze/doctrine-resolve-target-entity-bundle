@@ -1,28 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tourze\DoctrineResolveTargetEntityBundle\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tourze\DoctrineResolveTargetEntityBundle\DoctrineResolveTargetEntityBundle;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractBundleTestCase;
 
-class DoctrineResolveTargetEntityBundleTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(DoctrineResolveTargetEntityBundle::class)]
+#[RunTestsInSeparateProcesses]
+final class DoctrineResolveTargetEntityBundleTest extends AbstractBundleTestCase
 {
-    public function testBundleCreation(): void
-    {
-        $bundle = new DoctrineResolveTargetEntityBundle();
-        
-        $this->assertInstanceOf(Bundle::class, $bundle);
-        $this->assertInstanceOf(DoctrineResolveTargetEntityBundle::class, $bundle);
-    }
-    
-    public function testGetPath(): void
-    {
-        $bundle = new DoctrineResolveTargetEntityBundle();
-        
-        $path = $bundle->getPath();
-        
-        $this->assertStringEndsWith('src', $path);
-        $this->assertFileExists($path);
-    }
-} 
+}

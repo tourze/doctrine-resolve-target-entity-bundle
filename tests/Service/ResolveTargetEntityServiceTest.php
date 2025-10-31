@@ -2,67 +2,75 @@
 
 namespace Tourze\DoctrineResolveTargetEntityBundle\Tests\Service;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tourze\DoctrineResolveTargetEntityBundle\Exception\EntityClassNotFoundException;
 use Tourze\DoctrineResolveTargetEntityBundle\Service\ResolveTargetEntityService;
 use Tourze\DoctrineResolveTargetEntityBundle\Tests\Fixtures\TestEntity;
 use Tourze\DoctrineResolveTargetEntityBundle\Tests\Fixtures\TestInterface;
 
-class ResolveTargetEntityServiceTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(ResolveTargetEntityService::class)]
+final class ResolveTargetEntityServiceTest extends TestCase
 {
-    private ResolveTargetEntityService $service;
-    
-    protected function setUp(): void
+    private function createResolveTargetEntityService(): ResolveTargetEntityService
     {
-        $this->service = new ResolveTargetEntityService();
+        return new ResolveTargetEntityService();
     }
-    
-    public function testAdd_withValidClasses(): void
+
+    public function testAddWithValidClasses(): void
     {
         // 测试添加有效的接口和实体映射
-        $this->service->add(TestInterface::class, TestEntity::class);
-        
+        $service = $this->createResolveTargetEntityService();
+        $service->add(TestInterface::class, TestEntity::class);
+
         $this->assertEquals(
             TestEntity::class,
-            $this->service->findEntityClass(TestInterface::class)
+            $service->findEntityClass(TestInterface::class)
         );
     }
-    
-    public function testAdd_overrideExistingMapping(): void
+
+    public function testAddOverrideExistingMapping(): void
     {
         // 测试覆盖已存在的映射
-        $this->service->add(TestInterface::class, 'OldEntityClass');
-        $this->service->add(TestInterface::class, TestEntity::class);
-        
+        $service = $this->createResolveTargetEntityService();
+        $service->add(TestInterface::class, 'OldEntityClass');
+        $service->add(TestInterface::class, TestEntity::class);
+
         $this->assertEquals(
             TestEntity::class,
-            $this->service->findEntityClass(TestInterface::class)
+            $service->findEntityClass(TestInterface::class)
         );
     }
-    
-    public function testFindEntityClass_withExistingMapping(): void
+
+    public function testFindEntityClassWithExistingMapping(): void
     {
         // 测试查找已映射的实体类
-        $this->service->add(TestInterface::class, TestEntity::class);
-        
-        $result = $this->service->findEntityClass(TestInterface::class);
-        
+        $service = $this->createResolveTargetEntityService();
+        $service->add(TestInterface::class, TestEntity::class);
+
+        $result = $service->findEntityClass(TestInterface::class);
+
         $this->assertEquals(TestEntity::class, $result);
     }
-    
-    public function testFindEntityClass_withNonExistingMapping(): void
+
+    public function testFindEntityClassWithNonExistingMapping(): void
     {
         // 测试查找未映射的实体类（应抛出异常）
         $this->expectException(EntityClassNotFoundException::class);
-        
-        $this->service->findEntityClass('NonExistentInterface');
+
+        $service = $this->createResolveTargetEntityService();
+        $service->findEntityClass('NonExistentInterface');
     }
-    
-    public function testFindEntityClass_withEmptyString(): void
+
+    public function testFindEntityClassWithEmptyString(): void
     {
         // 测试使用空字符串作为参数
         $this->expectException(EntityClassNotFoundException::class);
-        
-        $this->service->findEntityClass('');
+
+        $service = $this->createResolveTargetEntityService();
+        $service->findEntityClass('');
     }
-} 
+}

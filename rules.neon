@@ -1,0 +1,2 @@
+rules:
+    - Tourze\DoctrineResolveTargetEntityBundle\PHPStan\Rules\DataFixtureOrderedInterfaceRule

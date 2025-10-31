@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tourze\DoctrineResolveTargetEntityBundle\Testing;
 
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -16,12 +18,16 @@ class TestKernelHelper
     /**
      * 创建用于配置 resolve target entity 映射的回调函数
      *
-     * @param array $resolveTargetMappings 接口到实体的映射
+     * @param array<string, string> $resolveTargetMappings 接口到实体的映射
+     *
      * @return \Closure 返回用于 IntegrationTestKernel containerBuilder 参数的回调
+     */
+    /**
+     * @param array<string, string> $resolveTargetMappings
      */
     public static function createResolveTargetCallback(array $resolveTargetMappings): \Closure
     {
-        return function (ContainerBuilder $container) use ($resolveTargetMappings) {
+        return function (ContainerBuilder $container) use ($resolveTargetMappings): void {
             // 注册 resolve target entity 映射
             foreach ($resolveTargetMappings as $interface => $entity) {
                 $container->addCompilerPass(
@@ -37,12 +43,14 @@ class TestKernelHelper
      * 为测试添加标准的实体映射目录
      *
      * @param string $testDir 测试目录，通常是 __DIR__
-     * @return array
+     */
+    /**
+     * @return array<string, string>
      */
     public static function getStandardEntityMappings(string $testDir): array
     {
         return [
-            'Test\\Entity' => $testDir . '/Fixtures/Entity',
+            'Test\Entity' => $testDir . '/Fixtures/Entity',
         ];
     }
 
@@ -51,11 +59,10 @@ class TestKernelHelper
      *
      * @param string $namespace 命名空间
      * @param string $directory 目录路径
-     * @return \Closure
      */
     public static function createDoctrineConfigurator(string $namespace, string $directory): \Closure
     {
-        return function (ContainerBuilder $container) use ($namespace, $directory) {
+        return function (ContainerBuilder $container) use ($namespace, $directory): void {
             if ($container->hasExtension('doctrine')) {
                 $container->prependExtensionConfig('doctrine', [
                     'orm' => [
@@ -65,9 +72,9 @@ class TestKernelHelper
                                 'dir' => $directory,
                                 'prefix' => $namespace,
                                 'is_bundle' => false,
-                            ]
-                        ]
-                    ]
+                            ],
+                        ],
+                    ],
                 ]);
             }
         };
@@ -76,13 +83,17 @@ class TestKernelHelper
     /**
      * 创建用于动态实体生成的回调函数
      *
-     * @param array $interfaceConfigs 接口配置，格式：[InterfaceClass => ['properties' => [...]]]
-     * @param string $cacheDir 缓存目录，通常来自内核的getCacheDir()
+     * @param array<string, array<string, mixed>>  $interfaceConfigs 接口配置，格式：[InterfaceClass => ['properties' => [...]]]
+     * @param string $cacheDir         缓存目录，通常来自内核的getCacheDir()
+     *
      * @return \Closure 返回用于 IntegrationTestKernel containerBuilder 参数的回调
+     */
+    /**
+     * @param array<string, array<string, mixed>> $interfaceConfigs
      */
     public static function createDynamicEntitiesCallback(array $interfaceConfigs, string $cacheDir): \Closure
     {
-        return function (ContainerBuilder $container) use ($interfaceConfigs, $cacheDir) {
+        return function (ContainerBuilder $container) use ($interfaceConfigs, $cacheDir): void {
             $generator = new TestEntityGenerator($cacheDir);
 
             foreach ($interfaceConfigs as $interface => $config) {
