@@ -8,11 +8,13 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Testing;
  * 接口分析器
  *
  * 负责分析接口并从中提取属性信息
+ *
+ * @phpstan-type AnalyzedProperty array{type: string, nullable: bool, is_interface?: true}
  */
 class InterfaceAnalyzer
 {
     /**
-     * @return array<string, mixed>
+     * @return array<string, AnalyzedProperty>
      */
     public function inferPropertiesFromInterface(string $interface): array
     {
@@ -24,7 +26,7 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, AnalyzedProperty>
      */
     private function extractPropertiesFromMethods(string $interface): array
     {
@@ -46,7 +48,7 @@ class InterfaceAnalyzer
     /**
      * 从方法中提取属性信息
      *
-     * @return array<int, mixed>|null
+     * @return array{0: string, 1: AnalyzedProperty}|null
      */
     private function extractPropertyFromMethod(\ReflectionMethod $method): ?array
     {
@@ -58,7 +60,7 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @return array<int, mixed>|null
+     * @return array{0: string, 1: AnalyzedProperty}|null
      */
     private function processGetterMethod(\ReflectionMethod $method): ?array
     {
@@ -78,8 +80,8 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @param array<int, mixed> $typeInfo
-     * @return array<int, mixed>
+     * @param array{0: string, 1: bool} $typeInfo
+     * @return array{0: string, 1: AnalyzedProperty}
      */
     private function buildPropertyConfig(string $propertyName, array $typeInfo): array
     {
@@ -103,7 +105,7 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @return array<int, mixed>|null
+     * @return array{0: string, 1: bool}|null
      */
     private function extractTypeInfo(\ReflectionType $returnType, string $methodName): ?array
     {
@@ -118,7 +120,7 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @return array<int, mixed>|null
+     * @return array{0: string, 1: bool}|null
      */
     private function getBasicTypeInfo(\ReflectionType $returnType): ?array
     {
@@ -133,7 +135,7 @@ class InterfaceAnalyzer
     }
 
     /**
-     * @return array<int, mixed>
+     * @return array{0: string, 1: bool}
      */
     private function adjustTypeForSpecialCases(string $typeName, bool $isNullable, string $methodName): array
     {

@@ -11,6 +11,9 @@ use Nette\PhpGenerator\Method;
  * 实体属性生成器
  *
  * 负责为动态生成的实体类添加属性、getter 和 setter 方法
+ *
+ * @phpstan-type PropertyConfig array{name: string, type: string, defaultValue: mixed, doctrineType: string}
+ * @phpstan-type GetterConfig array{0: string, 1: string, 2: string}
  */
 class EntityPropertyGenerator
 {
@@ -32,7 +35,7 @@ class EntityPropertyGenerator
     }
 
     /**
-     * @param array<string, mixed>|string $propertyConfig
+     * @param array{type: string, nullable?: bool, is_interface?: bool}|string $propertyConfig
      */
     public function generateConfiguredProperty(ClassType $class, string $name, array|string $propertyConfig): void
     {
@@ -40,10 +43,14 @@ class EntityPropertyGenerator
             $this->generateProperty($class, $name, $propertyConfig);
         } else {
             // 如果是接口类型，生成接口属性
-            if (isset($propertyConfig['is_interface']) && (bool) $propertyConfig['is_interface']) {
-                $this->generateInterfaceProperty($class, $name, $propertyConfig['type'], $propertyConfig['nullable'] ?? true);
+            $isInterface = true === ($propertyConfig['is_interface'] ?? false);
+            $nullable = (bool) ($propertyConfig['nullable'] ?? true);
+            $type = $propertyConfig['type'];
+
+            if ($isInterface) {
+                $this->generateInterfaceProperty($class, $name, $type, $nullable);
             } else {
-                $this->generateProperty($class, $name, $propertyConfig['type'], $propertyConfig['nullable'] ?? true);
+                $this->generateProperty($class, $name, $type, $nullable);
             }
         }
     }
@@ -55,7 +62,7 @@ class EntityPropertyGenerator
     }
 
     /**
-     * @return array<string, mixed>
+     * @return PropertyConfig
      */
     private function buildClassPropertyConfig(string $name, string $doctrineType, bool $nullable): array
     {
@@ -72,7 +79,7 @@ class EntityPropertyGenerator
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param PropertyConfig $config
      */
     private function createClassProperty(ClassType $class, array $config): void
     {
@@ -94,7 +101,7 @@ class EntityPropertyGenerator
     }
 
     /**
-     * @return array<int, mixed>
+     * @return GetterConfig
      */
     private function buildGetterConfig(string $name, string $doctrineType, bool $nullable): array
     {
@@ -116,7 +123,7 @@ class EntityPropertyGenerator
     }
 
     /**
-     * @param array<int, mixed> $config
+     * @param GetterConfig $config
      */
     private function createGetterMethod(ClassType $class, array $config): void
     {

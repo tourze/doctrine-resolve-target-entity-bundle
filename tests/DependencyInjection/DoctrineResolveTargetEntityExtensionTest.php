@@ -37,6 +37,8 @@ final class DoctrineResolveTargetEntityExtensionTest extends AbstractDependencyI
         $method->setAccessible(true);
 
         $configDir = $method->invoke($this->extension);
+        // 断言类型为字符串，避免 mixed 导致的静态分析问题
+        $this->assertIsString($configDir);
         $this->assertStringEndsWith('/Resources/config', $configDir);
     }
 }

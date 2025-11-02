@@ -39,9 +39,8 @@ class TestEntityGenerator
 
     /**
      * 为接口生成测试实体类
-     */
-    /**
-     * @param array<string, mixed> $properties
+     *
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     public function generateTestEntity(string $interface, array $properties = []): string
     {
@@ -49,7 +48,7 @@ class TestEntityGenerator
     }
 
     /**
-     * @param array<string, mixed> $properties
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     private function handleEntityGeneration(string $interface, array $properties): string
     {
@@ -71,7 +70,7 @@ class TestEntityGenerator
     }
 
     /**
-     * @param array<string, mixed> $properties
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     private function resolveOrCreateEntityClass(string $interface, array $properties): string
     {
@@ -92,7 +91,7 @@ class TestEntityGenerator
     }
 
     /**
-     * @param array<string, mixed> $properties
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     private function generateAndSaveEntityClass(string $interface, array $properties, string $fqcn): void
     {
@@ -115,7 +114,7 @@ class TestEntityGenerator
 
     /**
      * @param array<string, string> $classInfo
-     * @param array<string, mixed> $properties
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     private function createEntityClass(array $classInfo, string $interface, array $properties): PhpNamespace
     {
@@ -141,7 +140,7 @@ class TestEntityGenerator
     }
 
     /**
-     * @param array<string, mixed> $properties
+     * @param array<string, array{type: string, nullable?: bool, is_interface?: bool}|string> $properties
      */
     private function generateEntityProperties(ClassType $class, string $interface, array $properties): void
     {
@@ -191,6 +190,7 @@ class TestEntityGenerator
     {
         if (!interface_exists($interface)) {
             $this->generateDefaultToString($class);
+
             return;
         }
 
@@ -266,19 +266,19 @@ class TestEntityGenerator
     private function generateIdentifierBasedToString(ClassType $class, string $methodName): void
     {
         $body = <<<'PHP'
-// 对 Doctrine 代理对象安全：先检查是否已初始化
-if (method_exists($this, '__isInitialized') && !$this->__isInitialized()) {
-    return $this->id ? 'ID:' . $this->id : 'Proxy:' . spl_object_hash($this);
-}
+            // 对 Doctrine 代理对象安全：先检查是否已初始化
+            if (method_exists($this, '__isInitialized') && !$this->__isInitialized()) {
+                return $this->id ? 'ID:' . $this->id : 'Proxy:' . spl_object_hash($this);
+            }
 
-// 代理已初始化或非代理对象，安全调用标识符方法
-try {
-    return $this->%s();
-} catch (\Throwable $e) {
-    // 如果调用失败，返回安全的后备值
-    return $this->id ? 'ID:' . $this->id : 'Object:' . spl_object_hash($this);
-}
-PHP;
+            // 代理已初始化或非代理对象，安全调用标识符方法
+            try {
+                return $this->%s();
+            } catch (\Throwable $e) {
+                // 如果调用失败，返回安全的后备值
+                return $this->id ? 'ID:' . $this->id : 'Object:' . spl_object_hash($this);
+            }
+            PHP;
 
         $class->addMethod('__toString')
             ->setReturnType('string')
@@ -522,9 +522,8 @@ PHP;
 
     /**
      * 为接口生成测试实现（非 Doctrine 实体）
-     */
-    /**
-     * @param array<string, mixed> $methods
+     *
+     * @param array<string, callable(): mixed> $methods
      */
     public function generateTestImplementation(string $interface, array $methods = []): object
     {
@@ -541,7 +540,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function createImplementationInstance(string $interface, array $methods): object
     {
@@ -555,7 +554,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function resolveOrCreateImplementation(string $interface, array $methods): object
     {
@@ -582,7 +581,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function generateAndCreateImplementation(string $interface, array $methods, string $fqcn): object
     {
@@ -592,7 +591,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function createImplementationFile(string $interface, array $methods, string $fqcn): void
     {
@@ -612,7 +611,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function createImplementationClass(string $interface, array $methods, string $fqcn): PhpNamespace
     {
@@ -652,7 +651,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function configureImplementationClass(ClassType $class, string $interface, array $methods): void
     {
@@ -675,7 +674,7 @@ PHP;
     }
 
     /**
-     * @param array<string, mixed> $methods
+     * @param array<string, callable(): mixed> $methods
      */
     private function generateInterfaceMethods(ClassType $class, string $interface, array $methods): void
     {

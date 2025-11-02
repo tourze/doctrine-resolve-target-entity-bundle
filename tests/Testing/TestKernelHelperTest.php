@@ -49,6 +49,8 @@ final class TestKernelHelperTest extends TestCase
                 $originalEntity = $originalEntityProp->getValue($pass);
                 $newEntity = $newEntityProp->getValue($pass);
 
+                // 断言反射读取到的键名为字符串，避免 mixed 作为数组键
+                $this->assertIsString($originalEntity);
                 $this->assertContains($originalEntity, array_keys($mappings));
                 $this->assertEquals($mappings[$originalEntity], $newEntity);
 

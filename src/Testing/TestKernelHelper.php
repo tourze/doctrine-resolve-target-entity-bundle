@@ -83,13 +83,10 @@ class TestKernelHelper
     /**
      * 创建用于动态实体生成的回调函数
      *
-     * @param array<string, array<string, mixed>>  $interfaceConfigs 接口配置，格式：[InterfaceClass => ['properties' => [...]]]
+     * @param array<string, array{properties?: array<string, array{type: string, nullable?: bool, is_interface?: bool}|string>}>  $interfaceConfigs 接口配置，格式：[InterfaceClass => ['properties' => [...]]]
      * @param string $cacheDir         缓存目录，通常来自内核的getCacheDir()
      *
      * @return \Closure 返回用于 IntegrationTestKernel containerBuilder 参数的回调
-     */
-    /**
-     * @param array<string, array<string, mixed>> $interfaceConfigs
      */
     public static function createDynamicEntitiesCallback(array $interfaceConfigs, string $cacheDir): \Closure
     {
