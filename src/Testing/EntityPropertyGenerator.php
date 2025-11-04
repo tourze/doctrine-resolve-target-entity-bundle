@@ -19,6 +19,9 @@ class EntityPropertyGenerator
 {
     public function generateProperty(ClassType $class, string $name, string $doctrineType, bool $nullable = true): void
     {
+        if ($class->hasProperty($name)) {
+            return;
+        }
         $this->addPropertyToClass($class, $name, $doctrineType, $nullable);
         $this->addGetterMethod($class, $name, $doctrineType, $nullable);
         $this->addSetterMethod($class, $name, $doctrineType, $nullable);

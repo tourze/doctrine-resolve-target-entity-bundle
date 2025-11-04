@@ -178,8 +178,20 @@ class TestEntityGenerator
         $id->addAttribute('Doctrine\ORM\Mapping\GeneratedValue');
         $id->addAttribute('Doctrine\ORM\Mapping\Column', ['type' => 'integer']);
 
-        // 防御性检查：避免重复添加 getId 方法
-        if (!$class->hasMethod('getId')) {
+        // 注意：不在此处无条件生成 getId()，交由后续根据接口签名自动生成，避免签名不兼容
+        // 如果实现的接口中根本没有声明 getId，则补一个默认的 ?int 版本，方便常规使用
+        $hasInterfaceGetId = false;
+        foreach ($class->getImplements() as $implemented) {
+            if (interface_exists($implemented)) {
+                $iface = new \ReflectionClass($implemented);
+                if ($iface->hasMethod('getId')) {
+                    $hasInterfaceGetId = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$hasInterfaceGetId && !$class->hasMethod('getId')) {
             $class->addMethod('getId')
                 ->setReturnType('?int')
                 ->setBody('return $this->id;')
