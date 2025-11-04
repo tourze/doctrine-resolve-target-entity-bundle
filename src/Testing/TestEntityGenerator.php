@@ -162,6 +162,12 @@ class TestEntityGenerator
 
     private function generateIdProperty(ClassType $class): void
     {
+        // 防御性检查：避免在测试进程间重复生成时添加已存在的属性
+        // 这可能发生在接口属性推断包含 id 或跨进程文件缓存复用时
+        if ($class->hasProperty('id')) {
+            return;
+        }
+
         $id = $class->addProperty('id')
             ->setType('?int')
             ->setPrivate()
@@ -172,10 +178,13 @@ class TestEntityGenerator
         $id->addAttribute('Doctrine\ORM\Mapping\GeneratedValue');
         $id->addAttribute('Doctrine\ORM\Mapping\Column', ['type' => 'integer']);
 
-        $class->addMethod('getId')
-            ->setReturnType('?int')
-            ->setBody('return $this->id;')
-        ;
+        // 防御性检查：避免重复添加 getId 方法
+        if (!$class->hasMethod('getId')) {
+            $class->addMethod('getId')
+                ->setReturnType('?int')
+                ->setBody('return $this->id;')
+            ;
+        }
     }
 
     /**
