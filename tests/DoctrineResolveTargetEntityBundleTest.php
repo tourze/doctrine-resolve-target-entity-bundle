@@ -12,12 +12,16 @@ use Tourze\DoctrineResolveTargetEntityBundle\DoctrineResolveTargetEntityBundle;
 /**
  * @internal
  * 这个测试用例，不允许依赖 phpunit-symfony-kernel-test
+ *
+ * @phpstan-ignore phpat.bundleTestMustExtendsAbstractBundleTestCase (intentionally not using AbstractBundleTestCase to avoid dependency)
  */
 #[CoversClass(DoctrineResolveTargetEntityBundle::class)]
 final class DoctrineResolveTargetEntityBundleTest extends TestCase
 {
-    public function testBundleClass()
+    public function testBundleClass(): void
     {
-        self::assertTrue(is_subclass_of(DoctrineResolveTargetEntityBundle::class, Bundle::class));
+        $bundle = new DoctrineResolveTargetEntityBundle();
+        // @phpstan-ignore staticMethod.alreadyNarrowedType (this test verifies Bundle inheritance)
+        self::assertInstanceOf(Bundle::class, $bundle);
     }
 }

@@ -17,10 +17,19 @@ use Tourze\DoctrineResolveTargetEntityBundle\Tests\Fixtures\TestInterface;
 #[CoversClass(ResolveTargetEntityPass::class)]
 final class ResolveTargetEntityPassTest extends TestCase
 {
+    /**
+     * @var ContainerBuilder&\PHPUnit\Framework\MockObject\MockObject
+     */
     private ContainerBuilder $containerBuilder;
 
+    /**
+     * @var Definition&\PHPUnit\Framework\MockObject\MockObject
+     */
     private Definition $doctrineListenerDefinition;
 
+    /**
+     * @var Definition&\PHPUnit\Framework\MockObject\MockObject
+     */
     private Definition $serviceDefinition;
 
     protected function setUp(): void
