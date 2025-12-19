@@ -13,7 +13,7 @@ use Tourze\DoctrineResolveTargetEntityBundle\DependencyInjection\Compiler\Resolv
  *
  * 提供回调函数来简化 resolve target entity 测试配置，避免包之间的直接依赖
  */
-class TestKernelHelper
+final class TestKernelHelper
 {
     /**
      * 创建用于配置 resolve target entity 映射的回调函数

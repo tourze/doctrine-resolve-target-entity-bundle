@@ -16,7 +16,7 @@ use Tourze\DoctrineResolveTargetEntityBundle\Exception\InvalidInterfaceException
  *
  * 使用 Nette PHP Generator 动态生成实现接口的测试实体
  */
-class TestEntityGenerator
+final class TestEntityGenerator
 {
     /** @var array<string, string> */
     private array $generatedEntities = [];

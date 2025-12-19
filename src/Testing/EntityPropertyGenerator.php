@@ -15,7 +15,7 @@ use Nette\PhpGenerator\Method;
  * @phpstan-type PropertyConfig array{name: string, type: string, defaultValue: mixed, doctrineType: string}
  * @phpstan-type GetterConfig array{0: string, 1: string, 2: string}
  */
-class EntityPropertyGenerator
+final class EntityPropertyGenerator
 {
     public function generateProperty(ClassType $class, string $name, string $doctrineType, bool $nullable = true): void
     {

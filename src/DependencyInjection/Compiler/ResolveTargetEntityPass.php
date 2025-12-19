@@ -11,7 +11,7 @@ use Tourze\DoctrineResolveTargetEntityBundle\Service\ResolveTargetEntityService;
 /**
  * @see https://stackoverflow.com/questions/44751964/doctrine-resolve-target-entities-in-custom-bundle-configuration
  */
-readonly class ResolveTargetEntityPass implements CompilerPassInterface
+final readonly class ResolveTargetEntityPass implements CompilerPassInterface
 {
     public function __construct(
         private string $originalEntity,

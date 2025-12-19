@@ -131,21 +131,13 @@ final class TestEntityGeneratorTest extends TestCase
         // 创建实例并测试方法
         /** @var object $entity */
         $entity = new $entityClass();
-
-        /** @phpstan-ignore-next-line method.notFound */
         $entity->setTitle('Test Title');
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertEquals('Test Title', $entity->getTitle());
-
-        /** @phpstan-ignore-next-line method.notFound */
         $entity->setActive(true);
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertTrue($entity->isActive());
 
         $date = new \DateTime();
-        /** @phpstan-ignore-next-line method.notFound */
         $entity->setCreatedAt($date);
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertSame($date, $entity->getCreatedAt());
     }
 
@@ -200,24 +192,20 @@ final class TestEntityGeneratorTest extends TestCase
         $entity = new $entityClass();
 
         // 测试 getRoles 返回空数组而不是 null
-        /** @phpstan-ignore-next-line method.notFound */
         $roles = $entity->getRoles();
         $this->assertIsArray($roles);
         $this->assertEmpty($roles);
 
         // 测试 getUserIdentifier 返回空字符串而不是 null
-        /** @phpstan-ignore-next-line method.notFound */
         $identifier = $entity->getUserIdentifier();
         $this->assertIsString($identifier);
         $this->assertEquals('', $identifier);
 
         // 测试 getUsername 可以返回 null
-        /** @phpstan-ignore-next-line method.notFound */
         $username = $entity->getUsername();
         $this->assertNull($username);
 
         // 测试 eraseCredentials 不返回任何值
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($entity->eraseCredentials());
     }
 
@@ -263,19 +251,13 @@ final class TestEntityGeneratorTest extends TestCase
         $entity = new $entityClass();
 
         // 必需的方法应该返回默认值而不是 null
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertEquals('', $entity->getRequiredString());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertEquals([], $entity->getRequiredArray());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertEquals(0, $entity->getRequiredInt());
 
         // 可选的方法应该返回 null
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($entity->getOptionalString());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($entity->getOptionalArray());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($entity->getOptionalInt());
     }
 
@@ -300,13 +282,9 @@ final class TestEntityGeneratorTest extends TestCase
         $this->assertInstanceOf($interfaceName, $implementation);
 
         // 验证默认实现
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertEquals('', $implementation->getName());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($implementation->getId());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertFalse($implementation->isActive());
-        /** @phpstan-ignore-next-line method.notFound */
         $this->assertNull($implementation->process());
 
         // 测试带自定义方法实现

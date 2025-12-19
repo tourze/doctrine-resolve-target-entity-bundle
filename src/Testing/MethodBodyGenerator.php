@@ -9,7 +9,7 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Testing;
  *
  * 负责根据方法签名生成合适的默认实现
  */
-class MethodBodyGenerator
+final class MethodBodyGenerator
 {
     /**
      * 根据方法名和返回类型生成方法体

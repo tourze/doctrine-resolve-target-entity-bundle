@@ -6,7 +6,7 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Service;
 
 use Tourze\DoctrineResolveTargetEntityBundle\Exception\EntityClassNotFoundException;
 
-class ResolveTargetEntityService
+final class ResolveTargetEntityService
 {
     /** @var array<string, string> */
     private array $map = [

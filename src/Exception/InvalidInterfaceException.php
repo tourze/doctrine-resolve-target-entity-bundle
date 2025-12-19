@@ -9,6 +9,6 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Exception;
  *
  * 当接口不存在或无效时抛出
  */
-class InvalidInterfaceException extends \InvalidArgumentException
+final class InvalidInterfaceException extends \InvalidArgumentException
 {
 }

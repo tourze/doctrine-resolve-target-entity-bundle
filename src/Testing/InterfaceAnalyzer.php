@@ -11,7 +11,7 @@ namespace Tourze\DoctrineResolveTargetEntityBundle\Testing;
  *
  * @phpstan-type AnalyzedProperty array{type: string, nullable: bool, is_interface?: true}
  */
-class InterfaceAnalyzer
+final class InterfaceAnalyzer
 {
     /**
      * @return array<string, AnalyzedProperty>

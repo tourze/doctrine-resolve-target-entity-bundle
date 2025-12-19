@@ -20,7 +20,7 @@ use PHPStan\Rules\RuleErrorBuilder;
  *
  * @implements Rule<Class_>
  */
-class DataFixtureOrderedInterfaceRule implements Rule
+final class DataFixtureOrderedInterfaceRule implements Rule
 {
     public function getNodeType(): string
     {

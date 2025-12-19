@@ -11,7 +11,7 @@ use Nette\PhpGenerator\ClassType;
  *
  * 负责为实体生成合适的 __toString 方法
  */
-class ToStringGenerator
+final class ToStringGenerator
 {
     /**
      * 生成 __toString() 方法以支持表单渲染等场景
